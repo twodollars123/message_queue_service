@@ -33,13 +33,13 @@ const messageService = {
             `send notification successfully ::`,
             JSON.parse(msg.content)
           );
-          const { newNotiId } = JSON.parse(msg.content);
-          console.log("newNotiId::", newNotiId);
+          const { newNoti, receivedId } = JSON.parse(msg.content);
+          console.log("newNotiId::", newNoti);
           //found noti inner join noti_type
-          const foundNoti = await NotificationRepo.findOne(newNotiId);
+          const foundNoti = await NotificationRepo.findOne(newNoti.newNotiId);
           console.log("foundNoti", foundNoti);
           if (!foundNoti) throw new Error("khong tin thay noti");
-          let received_id = -1;
+          let received_id = receivedId || -1;
           //check type
           if (foundNoti.noti_typeid === 1) {
             //send to all user
@@ -49,7 +49,7 @@ const messageService = {
           //   // tim nhung user dang ki nhan thoong baos
           // }
           const createdNewNoti = await NotificationRepo.createOne(
-            newNotiId,
+            newNoti.newNotiId,
             received_id
           );
           console.log("createdNewNoti", createdNewNoti);

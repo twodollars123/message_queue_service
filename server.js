@@ -6,6 +6,16 @@ const {
 
 const queueName = "test1";
 
+//init db
+require("./src/dbs/init.postgres.lv0")
+  .connect()
+  .then(() => {
+    console.log("Connected to PostgreSQL database");
+  })
+  .catch((err) => {
+    console.error("Error connecting to PostgreSQL database", err);
+  });
+
 // consumerToQueue(queueName)
 //   .then(() => {
 //     console.log(`message consumer started ${queueName}`);
